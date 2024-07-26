@@ -28,12 +28,12 @@ class LoggerBase(object):
 
     def set_handler(self):
         logger.add(sys.stdout, format=self.config['format'], filter=self.__base_filter)
-        if self.config['save_path'] is not None:
-            if self.config['rotation'] is None:
-                logger.add(self.config['save_path'], format=self.config['format'], filter=self.__file_filter)
-            else:
+        if 'save_path' in self.config:
+            if 'rotation' in self.config:
                 logger.add(self.config['save_path'], format=self.config['format'], filter=self.__file_filter,
                            rotation=self.config['rotation'])
+            else:
+                logger.add(self.config['save_path'], format=self.config['format'], filter=self.__file_filter)
 
     def __exception_check(self, record):
         if record['exception'] is None:
